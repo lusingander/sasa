@@ -4,10 +4,12 @@ import "testing"
 
 func TestTrimMargin(t *testing.T) {
 	tests := []struct {
+		name string
 		s    string
 		want string
 	}{
 		{
+			name: "simple",
 			s: `foo
 			|bar
 			|baz`,
@@ -16,6 +18,7 @@ bar
 baz`,
 		},
 		{
+			name: "first line is empty",
 			s: `
 			|foo
 			|bar
@@ -25,6 +28,7 @@ bar
 baz`,
 		},
 		{
+			name: "last line is empty",
 			s: `foo
 			|bar
 			|baz
@@ -34,7 +38,8 @@ bar
 baz`,
 		},
 		{
-			s: `		
+			name: "first and last lines are blank",
+			s: `    
 			|foo
 			|bar
 			|baz
@@ -44,6 +49,7 @@ bar
 baz`,
 		},
 		{
+			name: "different marginPrefix indentation",
 			s: `
 			|foo
 	|bar
@@ -53,6 +59,7 @@ bar
 baz`,
 		},
 		{
+			name: "spaces after marginPrefix",
 			s: `
 			| foo
 			|   bar
@@ -62,10 +69,21 @@ baz`,
   baz`,
 		},
 		{
+			name: "single line",
 			s:    `  |  foo`,
 			want: `  foo`,
 		},
 		{
+			name: "line contains multiple marginPrefix",
+			s: `foo
+			| | bar
+			||baz`,
+			want: `foo
+ | bar
+|baz`,
+		},
+		{
+			name: "empty",
 			s:    ``,
 			want: ``,
 		},
@@ -73,7 +91,7 @@ baz`,
 
 	for _, tt := range tests {
 		tt := tt
-		t.Run("", func(t *testing.T) {
+		t.Run(tt.name, func(t *testing.T) {
 			got := TrimMargin(tt.s)
 			if got != tt.want {
 				t.Errorf("got = %v, want = %v", got, tt.want)
