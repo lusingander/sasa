@@ -36,6 +36,25 @@ func main() {
 }
 ```
 
+### TrimIndent
+
+[trimIndent](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/trim-indent.html) in Kotlin
+
+```go
+func main() {
+	s := sasa.TrimIndent(`
+	foo
+	 bar
+	  baz
+	`)
+	fmt.Println(s)
+	// =>
+	//foo
+	// bar
+	//  baz
+}
+```
+
 ## License
 
 MIT
