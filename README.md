@@ -1,3 +1,5 @@
+[![Go Reference](https://pkg.go.dev/badge/github.com/lusingander/sasa.svg)](https://pkg.go.dev/github.com/lusingander/sasa)
+
 # sasa
 
 String utilities for Go
