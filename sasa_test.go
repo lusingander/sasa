@@ -1,6 +1,9 @@
 package sasa
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestTrimMargin(t *testing.T) {
 	tests := []struct {
@@ -195,4 +198,26 @@ baz`,
 			}
 		})
 	}
+}
+
+func ExampleTrimMargin() {
+	s := TrimMargin(`
+	|foo
+	|bar
+	`)
+	fmt.Println(s)
+	// Output:
+	// foo
+	// bar
+}
+
+func ExampleTrimIndent() {
+	s := TrimIndent(`
+	foo
+	bar
+	`)
+	fmt.Println(s)
+	// Output:
+	// foo
+	// bar
 }
