@@ -152,3 +152,47 @@ baz`,
 		})
 	}
 }
+
+func TestTrimIndent(t *testing.T) {
+	tests := []struct {
+		name string
+		s    string
+		want string
+	}{
+		{
+			name: "simple",
+			s: `
+			foo
+			bar
+			baz`,
+			want: `foo
+bar
+baz`,
+		},
+		{
+			name: "contains spaces after indentation",
+			s: `
+			foo
+				bar
+			  baz`,
+			want: `foo
+	bar
+  baz`,
+		},
+		{
+			name: "empty",
+			s:    ``,
+			want: ``,
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			got := TrimIndent(tt.s)
+			if got != tt.want {
+				t.Errorf("got = %v, want = %v", got, tt.want)
+			}
+		})
+	}
+}
