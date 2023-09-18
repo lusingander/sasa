@@ -20,19 +20,19 @@ func main() {
 	|  baz
 	`)
 	fmt.Println(s)
-    // =>
-    //foo
-    // bar
-    //  baz
+	// =>
+	//foo
+	// bar
+	//  baz
 
 	t := sasa.TrimMargin(`foo
 	# bar
 	#  baz`, sasa.MarginPrefix("#"))
 	fmt.Println(t)
-    // =>
-    //foo
-    // bar
-    //  baz
+	// =>
+	//foo
+	// bar
+	//  baz
 }
 ```
 
