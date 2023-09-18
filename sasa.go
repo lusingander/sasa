@@ -5,8 +5,25 @@ import (
 	"unicode"
 )
 
-func TrimMargin(s string) string {
-	marginPrefix := "|"
+type trimMarginOptions struct {
+	marginPrefix string
+}
+
+type trimMarginOption func(*trimMarginOptions)
+
+func MarginPrefix(s string) trimMarginOption {
+	return func(opt *trimMarginOptions) {
+		opt.marginPrefix = s
+	}
+}
+
+func TrimMargin(s string, options ...trimMarginOption) string {
+	opts := &trimMarginOptions{
+		marginPrefix: "|",
+	}
+	for _, opt := range options {
+		opt(opts)
+	}
 
 	lines := strings.Split(s, "\n")
 	ln := len(lines)
@@ -26,8 +43,8 @@ func TrimMargin(s string) string {
 			continue
 		}
 
-		if strings.HasPrefix(line[nonSpaceIdx:], marginPrefix) {
-			ss = append(ss, line[nonSpaceIdx+len(marginPrefix):])
+		if strings.HasPrefix(line[nonSpaceIdx:], opts.marginPrefix) {
+			ss = append(ss, line[nonSpaceIdx+len(opts.marginPrefix):])
 		} else {
 			ss = append(ss, line)
 		}

@@ -99,3 +99,56 @@ baz`,
 		})
 	}
 }
+
+func TestTrimMargin_MarginPrefix(t *testing.T) {
+	tests := []struct {
+		name         string
+		marginPrefix string
+		s            string
+		want         string
+	}{
+		{
+			name:         "simple",
+			marginPrefix: "*",
+			s: `foo
+			*bar
+			*baz`,
+			want: `foo
+bar
+baz`,
+		},
+		{
+			name:         "multiple characters",
+			marginPrefix: "///",
+			s: `    
+			///foo
+			///bar
+			///baz
+			`,
+			want: `foo
+bar
+baz`,
+		},
+		{
+			name:         "not ascii characters",
+			marginPrefix: "☆",
+			s: `
+			☆ foo
+			☆   bar
+			☆  baz`,
+			want: ` foo
+   bar
+  baz`,
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			got := TrimMargin(tt.s, MarginPrefix(tt.marginPrefix))
+			if got != tt.want {
+				t.Errorf("got = %v, want = %v", got, tt.want)
+			}
+		})
+	}
+}
