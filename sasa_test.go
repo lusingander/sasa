@@ -261,3 +261,43 @@ func ExampleReplacePrefix() {
 	// Output:
 	// xxabbbaaa
 }
+
+func TestReplaceSuffix(t *testing.T) {
+	tests := []struct {
+		s    string
+		old  string
+		new  string
+		want string
+	}{
+		{"", "", "", ""},
+		{"", "a", "b", ""},
+		{"abc", "", "", "abc"},
+		{"aaaabbbb", "b", "xy", "aaaaxyxyxyxy"},
+		{"aaaabbbb", "bb", "xy", "aaaaxyxy"},
+		{"aaaabbbb", "bb", "x", "aaaaxx"},
+		{"aaaabbbb", "bbb", "", "aaaab"},
+		{"aaabbbaaacccaaa", "a", "x", "aaabbbaaacccxxx"},
+		{"aaabbbaaacccaaa", "aa", "xx", "aaabbbaaacccaxx"},
+		{"aaabbbaaacccaaa", "aaaa", "xx", "aaabbbaaacccaaa"},
+		{"abcabcabc", "abc", "xyz", "xyzxyzxyz"},
+		{"cabcabcabc", "abc", "xyz", "cxyzxyzxyz"},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+		name := fmt.Sprintf("%s/%s/%s", tt.s, tt.old, tt.new)
+		t.Run(name, func(t *testing.T) {
+			got := ReplaceSuffix(tt.s, tt.old, tt.new)
+			if got != tt.want {
+				t.Errorf("got = %q, want = %q", got, tt.want)
+			}
+		})
+	}
+}
+
+func ExampleReplaceSuffix() {
+	s := ReplaceSuffix("aaabbbaaaaa", "aa", "x")
+	fmt.Println(s)
+	// Output:
+	// aaabbbaxx
+}

@@ -127,6 +127,35 @@ func ReplacePrefix(s, old, new string) string {
 	return b.String()
 }
 
+func ReplaceSuffix(s, old, new string) string {
+	on := len(old)
+	if old == new || on == 0 {
+		return s
+	}
+
+	var b strings.Builder
+	b.Grow(len(s))
+
+	count := 0
+	end := len(s)
+	for {
+		if end-on < 0 {
+			break
+		}
+		if s[end-on:end] != old {
+			break
+		}
+		count++
+		end -= on
+	}
+	b.WriteString(s[:end])
+	for i := 0; i < count; i++ {
+		b.WriteString(new)
+	}
+
+	return b.String()
+}
+
 func isNotSpace(r rune) bool {
 	return !unicode.IsSpace(r)
 }
