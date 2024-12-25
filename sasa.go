@@ -102,6 +102,31 @@ func TrimIndent(s string) string {
 	return strings.Join(ss, "\n")
 }
 
+func ReplacePrefix(s, old, new string) string {
+	on := len(old)
+	if old == new || on == 0 {
+		return s
+	}
+
+	var b strings.Builder
+	b.Grow(len(s))
+
+	start := 0
+	for {
+		if start+on > len(s) {
+			break
+		}
+		if s[start:start+on] != old {
+			break
+		}
+		b.WriteString(new)
+		start += on
+	}
+	b.WriteString(s[start:])
+
+	return b.String()
+}
+
 func isNotSpace(r rune) bool {
 	return !unicode.IsSpace(r)
 }

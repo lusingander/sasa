@@ -221,3 +221,43 @@ func ExampleTrimIndent() {
 	// foo
 	// bar
 }
+
+func TestReplacePrefix(t *testing.T) {
+	tests := []struct {
+		s    string
+		old  string
+		new  string
+		want string
+	}{
+		{"", "", "", ""},
+		{"", "a", "b", ""},
+		{"abc", "", "", "abc"},
+		{"aaaabbbb", "a", "xy", "xyxyxyxybbbb"},
+		{"aaaabbbb", "aa", "xy", "xyxybbbb"},
+		{"aaaabbbb", "aa", "x", "xxbbbb"},
+		{"aaaabbbb", "aaa", "", "abbbb"},
+		{"aaabbbaaacccaaa", "a", "x", "xxxbbbaaacccaaa"},
+		{"aaabbbaaacccaaa", "aa", "xx", "xxabbbaaacccaaa"},
+		{"aaabbbaaacccaaa", "aaaa", "x", "aaabbbaaacccaaa"},
+		{"abcabcabc", "abc", "xyz", "xyzxyzxyz"},
+		{"abcabcabca", "abc", "xyz", "xyzxyzxyza"},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+		name := fmt.Sprintf("%s/%s/%s", tt.s, tt.old, tt.new)
+		t.Run(name, func(t *testing.T) {
+			got := ReplacePrefix(tt.s, tt.old, tt.new)
+			if got != tt.want {
+				t.Errorf("got = %q, want = %q", got, tt.want)
+			}
+		})
+	}
+}
+
+func ExampleReplacePrefix() {
+	s := ReplacePrefix("aaaaabbbaaa", "aa", "x")
+	fmt.Println(s)
+	// Output:
+	// xxabbbaaa
+}
