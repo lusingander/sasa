@@ -57,6 +57,22 @@ func main() {
 }
 ```
 
+### ReplacePrefix / ReplaceSuffix
+
+```go
+func main() {
+	s := ReplacePrefix("aaaaabbbaaa", "aa", "x")
+	fmt.Println(s)
+	// =>
+	//xxabbbaaa
+	
+	s := ReplaceSuffix("aaabbbaaaaa", "aa", "x")
+	fmt.Println(s)
+	// =>
+	//aaabbbaxx
+}
+```
+
 ## License
 
 MIT
