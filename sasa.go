@@ -102,6 +102,8 @@ func TrimIndent(s string) string {
 	return strings.Join(ss, "\n")
 }
 
+// ReplacePrefix returns a copy of the string s with the leading (prefix) instances of old replaced by new.
+// Replacement is performed repeatedly at the start of the string until old is no longer a prefix of the remaining substring.
 func ReplacePrefix(s, old, new string) string {
 	on := len(old)
 	if old == new || on == 0 {
@@ -127,6 +129,8 @@ func ReplacePrefix(s, old, new string) string {
 	return b.String()
 }
 
+// ReplaceSuffix returns a copy of the string s with the trailing (suffix) instances of old replaced by new.
+// Replacement is performed repeatedly at the end of the string until old is no longer a suffix of the remaining substring.
 func ReplaceSuffix(s, old, new string) string {
 	on := len(old)
 	if old == new || on == 0 {
